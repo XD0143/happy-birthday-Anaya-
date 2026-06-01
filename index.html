@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Happy Birthday Anaya 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Dancing+Script:wght@700&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+:root{--red:#ff1744;--gold:#ffd700;--pink:#ff4d8d;--rose:#ff0055;--cream:#fff9f0;--deep:#0a0005;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#0a0005;min-height:100vh;font-family:'Dancing Script',cursive;overflow-x:hidden;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ctext y='22' font-size='22'%3E💕%3C/text%3E%3C/svg%3E"),auto;}
+
+/* CANVAS & BG */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.floater{position:absolute;animation:floatUp linear infinite;opacity:0;}
+@keyframes floatUp{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
+
+/* WIPE */
+.wipe{position:fixed;inset:0;background:radial-gradient(ellipse at center,#1a000d,#0a0005);z-index:9999;pointer-events:none;opacity:0;transition:opacity .5s;}
+
+/* SECTIONS */
+.section{position:relative;z-index:10;display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px;text-align:center;}
+.section.active{display:flex;}
+
+/* ======= SPLASH ======= */
+#splashScreen{position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse at 40% 50%,#1f0010 0%,#0a0005 75%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;}
+.splash-roses{position:absolute;inset:0;pointer-events:none;}
+.splash-rose{position:absolute;font-size:1.6rem;animation:roseFloat linear infinite;opacity:0;}
+@keyframes roseFloat{0%{opacity:0;transform:translateY(110vh) rotate(0deg)}10%{opacity:.7}90%{opacity:.7}100%{opacity:0;transform:translateY(-10vh) rotate(540deg)}}
+.splash-cake-anim{font-size:6rem;animation:cakeBounce 1.4s ease-in-out infinite;margin-bottom:16px;filter:drop-shadow(0 0 30px #ff1744);}
+@keyframes cakeBounce{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.1) translateY(-10px)}}
+.splash-name{font-family:'Cinzel Decorative',cursive;font-size:clamp(2.5rem,8vw,5rem);background:linear-gradient(135deg,#ff0055,#ffd700,#ff4d8d,#ff0055);background-size:400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 2.5s linear infinite;text-align:center;padding:0 20px;line-height:1.2;filter:drop-shadow(0 0 20px rgba(255,0,85,.5));}
+.splash-tagline{font-family:'Great Vibes',cursive;font-size:clamp(1.4rem,5vw,2rem);color:#ffd700;margin:14px 0 36px;animation:glowPulse 2s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 20px #ffd700,0 0 40px #ffd700}50%{text-shadow:0 0 10px #ffd700}}
+.splash-btn{font-family:'Cinzel Decorative',cursive;font-size:1rem;letter-spacing:2px;color:#fff;background:linear-gradient(135deg,#ff0055,#ff4d8d,#ffd700,#ff0055);background-size:300%;animation:gradShift 2s linear infinite,btnPulse 1.2s ease-in-out infinite;padding:18px 50px;border-radius:60px;border:2px solid rgba(255,215,0,.5);box-shadow:0 0 40px rgba(255,0,85,.6),0 0 80px rgba(255,0,85,.3);}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 40px rgba(255,0,85,.6),0 0 80px rgba(255,0,85,.3)}50%{box-shadow:0 0 60px rgba(255,0,85,1),0 0 120px rgba(255,0,85,.5)}}
+.splash-note{margin-top:16px;font-family:'Dancing Script',cursive;font-size:1rem;color:rgba(255,150,180,.5);animation:fadeInOut 2s ease-in-out infinite;}
+@keyframes fadeInOut{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* COMMON */
+@keyframes gradShift{0%{background-position:0%}100%{background-position:300%}}
+@keyframes glow{from{filter:drop-shadow(0 0 10px #ff0055)}to{filter:drop-shadow(0 0 30px #ffd700)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.04)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* SCROLLBAR TICKER */
+.hb-scroll{position:fixed;bottom:0;left:0;right:0;height:42px;overflow:hidden;z-index:999;background:linear-gradient(90deg,rgba(255,0,85,.15),rgba(255,215,0,.1),rgba(255,0,85,.15));border-top:1px solid rgba(255,0,85,.3);display:none;}
+.hb-scroll.show{display:block;}
+.hb-inner{display:inline-block;white-space:nowrap;animation:ticker 20s linear infinite;font-family:'Cinzel Decorative',cursive;font-size:.85rem;line-height:42px;color:#ffd700;padding-left:100%;letter-spacing:2px;}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* CONFETTI */
+#confettiCanvas{position:fixed;inset:0;z-index:500;pointer-events:none;display:none;}
+
+/* ======= SEC 1 — HERO ======= */
+#sec1{background:radial-gradient(ellipse at 50% 40%,#1f0010 0%,#0a0005 70%);}
+.hero-badge{font-family:'Sacramento',cursive;font-size:clamp(1.2rem,4vw,1.8rem);color:#ffd700;letter-spacing:3px;margin-bottom:8px;animation:slideUp .8s ease both;}
+.hero-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(2.4rem,7.5vw,5.5rem);background:linear-gradient(135deg,#ff0055,#ffd700,#ff4d8d,#ffd700,#ff0055);background-size:400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 3s linear infinite,glow 2.5s ease-in-out infinite alternate;line-height:1.15;}
+.hero-name{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(3.5rem,11vw,8rem);background:linear-gradient(135deg,#ff4d8d,#ffd700,#ff0055,#ffd700);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 2.5s linear infinite;filter:drop-shadow(0 0 30px rgba(255,0,85,.5));margin-top:-10px;}
+.hero-sub{font-family:'Great Vibes',cursive;font-size:clamp(1.3rem,4vw,2rem);color:#ff4d8d;animation:pulse 2.5s ease-in-out infinite;margin:14px 0 20px;}
+
+/* BALLOON */
+.balloon-scene{position:relative;width:320px;height:320px;margin:0 auto 16px;cursor:pointer;}
+.balloon-scene svg{width:100%;height:100%;}
+.burst-item{position:absolute;font-size:1.8rem;pointer-events:none;display:none;}
+.burst-item.go{display:block;animation:burst var(--d,1.2s) ease-out forwards;}
+@keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(1.4) rotate(var(--rot));opacity:0}}
+
+/* GIFT */
+.gift-wrap{margin-top:10px;position:relative;display:inline-block;cursor:pointer;transition:transform .25s;}
+.gift-wrap:hover{transform:scale(1.1) rotate(-3deg);}
+.gift-box{width:120px;height:110px;background:linear-gradient(145deg,#ff0055,#b70040);border-radius:10px;position:relative;border:3px solid #ffd700;box-shadow:0 0 30px rgba(255,0,85,.5),0 0 60px rgba(255,0,85,.2);}
+.gift-lid{width:134px;height:34px;background:linear-gradient(145deg,#ff0055,#d4004b);border:3px solid #ffd700;border-radius:8px;position:absolute;top:-18px;left:-7px;}
+.gift-rv{position:absolute;width:18px;background:#ffd700;top:-18px;bottom:0;left:50%;transform:translateX(-50%);}
+.gift-rh{position:absolute;height:18px;background:#ffd700;top:50%;left:0;right:0;transform:translateY(-50%);}
+.gift-bow{position:absolute;top:-48px;left:50%;transform:translateX(-50%);font-size:2.4rem;animation:breathe 1.5s ease-in-out infinite;}
+.gift-label{position:absolute;bottom:10px;left:0;right:0;font-family:'Cinzel Decorative',cursive;font-size:.65rem;color:#ffd700;animation:blink 1.4s ease-in-out infinite;letter-spacing:1px;}
+.open-hint{margin-top:10px;font-family:'Great Vibes',cursive;font-size:1.3rem;color:#ff4d8d;animation:blink 1.2s ease-in-out infinite;}
+
+/* ======= SEC 2 — DUA ======= */
+#sec2{background:radial-gradient(ellipse at 50% 40%,#001a0d 0%,#050e08 60%,#0a0005 100%);}
+.section-badge{display:inline-flex;align-items:center;gap:10px;font-family:'Cinzel Decorative',cursive;font-size:clamp(.85rem,3vw,1.2rem);letter-spacing:1px;padding:12px 32px;border-radius:60px;margin-bottom:24px;}
+.badge-dua{color:#0a0a0a;background:linear-gradient(135deg,#00e676,#69f0ae,#00bcd4);box-shadow:0 0 40px rgba(0,230,118,.5);}
+.dua-outer{max-width:580px;width:95%;}
+.dua-card{background:linear-gradient(145deg,rgba(0,35,18,.97),rgba(0,20,10,.93));border-radius:28px;padding:38px 28px;position:relative;overflow:hidden;}
+.dua-card::before{content:'';position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:30px;background:linear-gradient(135deg,#00e676,#00bcd4,#69f0ae,#00e676);background-size:300%;animation:gradShift 4s linear infinite;z-index:-1;}
+.dua-card::after{content:'🤲';position:absolute;font-size:10rem;opacity:.03;top:50%;left:50%;transform:translate(-50%,-50%);}
+.dua-lines{display:flex;flex-direction:column;gap:12px;}
+.dua-line{display:flex;align-items:flex-start;gap:12px;background:rgba(0,230,118,.07);border-left:3px solid #00e676;border-radius:0 14px 14px 0;padding:13px 16px;text-align:left;animation:slideInLeft .6s ease both;transition:background .3s;}
+.dua-line:hover{background:rgba(0,230,118,.14);}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+.dua-line:nth-child(1){animation-delay:.1s;border-color:#00e676}
+.dua-line:nth-child(2){animation-delay:.2s;border-color:#ffd700}
+.dua-line:nth-child(3){animation-delay:.3s;border-color:#ff69b4}
+.dua-line:nth-child(4){animation-delay:.4s;border-color:#69f0ae}
+.dua-line:nth-child(5){animation-delay:.5s;border-color:#80deea}
+.dua-line:nth-child(6){animation-delay:.6s;border-color:#ff8a65}
+.dua-line:nth-child(7){animation-delay:.7s;border-color:#ce93d8}
+.dua-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px;}
+.dua-text{font-family:'Dancing Script',cursive;font-size:1.15rem;color:#e8f5e9;line-height:1.7;}
+.dua-text strong{color:#ffd700;}
+.dua-ameen{margin-top:22px;font-family:'Great Vibes',cursive;font-size:1.7rem;color:#00e676;text-shadow:0 0 20px rgba(0,230,118,.8);animation:pulse 2s ease-in-out infinite;}
+.btn-nav{margin-top:26px;padding:15px 42px;border:none;border-radius:60px;font-family:'Cinzel Decorative',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;transition:transform .2s;box-shadow:0 6px 30px rgba(0,0,0,.4);}
+.btn-nav:hover{transform:scale(1.08);}
+.btn-green{background:linear-gradient(135deg,#00e676,#00bcd4,#69f0ae);background-size:200%;animation:gradShift 3s linear infinite;color:#000;}
+.btn-red{background:linear-gradient(135deg,#ff0055,#ff4d8d,#ffd700);background-size:200%;animation:gradShift 3s linear infinite;color:#fff;}
+.btn-gold{background:linear-gradient(135deg,#ffd700,#ff8f00,#ffd700);background-size:200%;animation:gradShift 3s linear infinite;color:#000;}
+.btn-purple{background:linear-gradient(135deg,#ce93d8,#7c4dff,#ce93d8);background-size:200%;animation:gradShift 3s linear infinite;color:#fff;}
+
+/* ======= SEC 3 — POETRY ======= */
+#sec3{background:radial-gradient(ellipse at 50% 40%,#1a000f 0%,#0a0005 70%);}
+.badge-poetry{color:#fff;background:linear-gradient(135deg,#ff0055,#ff4d8d,#ffd700);background-size:200%;animation:gradShift 3s linear infinite;box-shadow:0 0 40px rgba(255,0,85,.5);}
+.poetry-outer{max-width:660px;width:95%;}
+.poetry-grid{display:flex;flex-direction:column;gap:22px;}
+.poem-card{border-radius:24px;padding:28px 24px;font-family:'Dancing Script',cursive;font-size:1.2rem;line-height:2.1;position:relative;overflow:hidden;transition:transform .3s;}
+.poem-card:hover{transform:translateY(-5px) scale(1.01);}
+.poem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.poem-label{font-family:'Cinzel Decorative',cursive;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;opacity:.6;margin-bottom:12px;display:block;}
+.poem-icon-big{font-size:2.2rem;display:block;margin-bottom:6px;}
+.poem-hr{width:70px;height:2px;margin:12px auto;border-radius:2px;}
+.pc1{background:linear-gradient(145deg,#1a0010,#2d0020);border:1px solid rgba(255,77,141,.5);color:#ffccdd;box-shadow:0 0 50px rgba(255,77,141,.15);}
+.pc1::before{background:linear-gradient(90deg,transparent,#ff4d8d,transparent);}
+.pc1 .poem-hr{background:linear-gradient(90deg,#ff4d8d,#ff0055);}
+.pc2{background:linear-gradient(145deg,#0d001a,#1a0030);border:1px solid rgba(206,147,216,.5);color:#e8d5f5;box-shadow:0 0 50px rgba(206,147,216,.15);}
+.pc2::before{background:linear-gradient(90deg,transparent,#ce93d8,transparent);}
+.pc2 .poem-hr{background:linear-gradient(90deg,#ce93d8,#7c4dff);}
+.pc3{background:linear-gradient(145deg,#001015,#002030);border:1px solid rgba(128,222,234,.5);color:#cce8f0;box-shadow:0 0 50px rgba(128,222,234,.15);}
+.pc3::before{background:linear-gradient(90deg,transparent,#80deea,transparent);}
+.pc3 .poem-hr{background:linear-gradient(90deg,#80deea,#0097a7);}
+.pc4{background:linear-gradient(145deg,#15100a,#251800);border:1px solid rgba(255,215,0,.4);color:#fff3cc;box-shadow:0 0 50px rgba(255,215,0,.15);}
+.pc4::before{background:linear-gradient(90deg,transparent,#ffd700,transparent);}
+.pc4 .poem-hr{background:linear-gradient(90deg,#ffd700,#ff8f00);}
+
+/* ======= SEC 4 — GIFs ======= */
+#sec4{background:radial-gradient(ellipse at center,#0a0a1a 0%,#0a0005 70%);}
+.gif-wrap{max-width:650px;width:96%;background:linear-gradient(145deg,rgba(255,215,0,.06),rgba(255,0,85,.08));border:2px solid rgba(255,215,0,.4);border-radius:28px;padding:28px 22px;box-shadow:0 0 70px rgba(255,215,0,.2);}
+.gif-title{font-family:'Cinzel Decorative',cursive;color:#ffd700;font-size:clamp(1.1rem,4vw,1.6rem);margin-bottom:22px;text-shadow:0 0 20px #ffd700;}
+.gif-slide{display:none;flex-direction:column;align-items:center;}
+.gif-slide.active{display:flex;}
+.gif-border{width:100%;max-width:540px;border-radius:24px;overflow:hidden;padding:10px;margin:0 auto;background:linear-gradient(135deg,#ffd700,#ff8f00,#ff4d8d);animation:slideBorderGlow 2s ease infinite;}
+@keyframes slideBorderGlow{0%,100%{box-shadow:0 0 20px rgba(255,215,0,.6)}50%{box-shadow:0 0 45px rgba(255,77,141,.8)}}
+.gif-img{width:100%;border-radius:18px;display:block;height:380px;object-fit:cover;background:#000;}
+.gif-cap{margin-top:14px;font-family:'Great Vibes',cursive;font-size:1.7rem;animation:pulse 2s ease-in-out infinite;color:#ffd700;text-shadow:0 0 10px #ff0055;}
+.gif-dots{display:flex;gap:12px;justify-content:center;margin-top:22px;}
+.gif-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s;}
+.gif-dot.active{width:38px;border-radius:12px;background:#ffd700;box-shadow:0 0 18px #ffd700;}
+.music-row{margin-top:20px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.note-bounce{font-size:1.6rem;animation:noteBounce 1s ease-in-out infinite;}
+.note-bounce:nth-child(2){animation-delay:.2s}
+.note-bounce:nth-child(3){animation-delay:.4s}
+@keyframes noteBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.music-lbl{font-family:'Great Vibes',cursive;font-size:1.5rem;color:#ff4d8d;animation:pulse 2s ease-in-out infinite;}
+audio{display:none;}
+
+/* ======= SEC 5 — TAP ======= */
+#sec5{background:radial-gradient(ellipse at center,#1a000f 0%,#0a0005 70%);}
+.tap-text{font-family:'Cinzel Decorative',cursive;font-size:clamp(2.2rem,7vw,4.5rem);background:linear-gradient(135deg,#ff0055,#ffd700,#ff4d8d,#ffd700,#ff0055);background-size:400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 3s linear infinite,breathe 2.5s ease-in-out infinite;cursor:pointer;filter:drop-shadow(0 0 20px #ff0055);margin-bottom:12px;}
+.tap-sub{font-family:'Great Vibes',cursive;font-size:1.5rem;color:#ffd700;animation:blink 1.3s ease-in-out infinite;}
+.tap-ring{width:200px;height:200px;border-radius:50%;border:3px dashed rgba(255,0,85,.4);position:absolute;animation:ringExpand 2s ease-in-out infinite;}
+.tap-ring2{animation-delay:.6s;border-color:rgba(255,215,0,.3);}
+@keyframes ringExpand{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.5);opacity:0}}
+
+/* ======= SEC 6 — FINAL ======= */
+#sec6{background:radial-gradient(ellipse at center,#1a000a 0%,#0a0005 70%);}
+.final-box{max-width:620px;width:94%;background:linear-gradient(145deg,rgba(255,0,85,.12),rgba(255,215,0,.08));border:3px solid #ff0055;border-radius:30px;padding:40px 30px;box-shadow:0 0 80px rgba(255,0,85,.4);animation:popIn .7s cubic-bezier(.17,.89,.32,1.28);}
+@keyframes popIn{0%{transform:scale(0) rotate(-5deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.final-emojis{font-size:2.8rem;margin-bottom:16px;letter-spacing:6px;animation:breathe 2s ease-in-out infinite;}
+.final-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(1.8rem,6vw,3.2rem);background:linear-gradient(135deg,#ff0055,#ffd700,#ff4d8d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glow 2s ease-in-out infinite alternate;line-height:1.3;}
+.final-msg{font-family:'Dancing Script',cursive;font-size:1.25rem;color:#ffd700;margin:18px 0;line-height:2;}
+.final-hearts{font-size:2rem;letter-spacing:5px;margin:14px 0;animation:pulse 1.5s ease-in-out infinite;}
+.wished-by{margin-top:28px;font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,3.5vw,1.5rem);color:rgba(255,200,220,.7);letter-spacing:1px;}
+.wished-name{display:block;margin-top:8px;font-family:'Cinzel Decorative',cursive;font-size:clamp(1.8rem,5vw,2.8rem);background:linear-gradient(135deg,#ff0055,#ffd700,#ff4d8d,#00e676);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 3s linear infinite,glow 2s ease-in-out infinite alternate;filter:drop-shadow(0 0 10px rgba(255,215,0,.5));}
+
+/* ======= SEC 7 — CAKE ======= */
+#sec7{background:radial-gradient(ellipse at center,#12000a 0%,#0a0005 70%);}
+.cake-section-badge{font-family:'Cinzel Decorative',cursive;font-size:clamp(.85rem,3vw,1.2rem);color:#fff;background:linear-gradient(135deg,#ff0055,#ffd700,#ff4d8d);background-size:200%;animation:gradShift 3s linear infinite;padding:12px 32px;border-radius:60px;margin-bottom:28px;box-shadow:0 0 40px rgba(255,0,85,.5);letter-spacing:1px;display:inline-block;}
+.cake-container{position:relative;width:320px;margin:0 auto 20px;cursor:pointer;}
+.cake-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,0,85,.3),transparent 70%);animation:cakeGlowAnim 2s ease-in-out infinite;pointer-events:none;z-index:0;}
+@keyframes cakeGlowAnim{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}
+.cake-svg{width:100%;position:relative;z-index:1;filter:drop-shadow(0 10px 40px rgba(255,0,85,.5));transition:transform .3s;}
+.cake-container:hover .cake-svg{transform:scale(1.04);}
+.cake-text{font-family:'Great Vibes',cursive;font-size:1.6rem;color:#ffd700;animation:pulse 2s ease-in-out infinite;margin-top:6px;}
+.candle-flame{animation:flicker .5s ease-in-out infinite alternate;transform-origin:bottom center;}
+@keyframes flicker{0%{transform:scaleX(1) scaleY(1);opacity:1}100%{transform:scaleX(1.3) scaleY(1.1);opacity:.85}}
+.candle-flame2{animation:flicker2 .6s ease-in-out infinite alternate;transform-origin:bottom center;}
+@keyframes flicker2{0%{transform:scaleX(.9) scaleY(1.1);opacity:.9}100%{transform:scaleX(1.2) scaleY(.95);opacity:1}}
+.candle-flame3{animation:flicker3 .4s ease-in-out infinite alternate;transform-origin:bottom center;}
+@keyframes flicker3{0%{transform:scaleX(1.1) scaleY(.9);opacity:1}100%{transform:scaleX(.9) scaleY(1.2);opacity:.8}}
+.cake-tap-hint{font-family:'Dancing Script',cursive;font-size:1rem;color:rgba(255,100,140,.6);margin-top:8px;animation:blink 1.5s ease-in-out infinite;}
+
+@media(max-width:480px){
+  .gif-img{height:260px;}
+  .cake-container{width:270px;}
+  .final-box{padding:28px 18px;}
+  .dua-card{padding:28px 18px;}
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
+<div class="wipe" id="wipe"></div>
+<div class="floaters" id="floaters"></div>
+<audio id="audioEl" src="https://files.catbox.moe/7lsb6c.mp3" loop preload="auto"></audio>
+
+<!-- SPLASH -->
+<div id="splashScreen">
+  <div class="splash-roses" id="splashRoses"></div>
+  <div class="splash-cake-anim">🎂</div>
+  <div class="splash-name">Happy Birthday<br>Anaya ✨</div>
+  <div class="splash-tagline">A very special gift, just for you 🌹</div>
+  <div class="splash-btn">💌 Tap to Open 💌</div>
+  <div class="splash-note">🎵 Song bhi start ho jayega 🎵</div>
+</div>
+
+<div class="hb-scroll" id="hbScroll">
+  <div class="hb-inner">🎂 Happy Birthday Anaya 🎂 ✨ Khush Raho Hamesha ✨ 🌹 Dil Ki Dua Hai Tumhare Liye 🌹 🎂 Happy Birthday Anaya 🎂 ✨ Khush Raho Hamesha ✨ 🌹 Dil Ki Dua Hai Tumhare Liye 🌹 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</div>
+
+<!-- SEC 1 – HERO -->
+<div class="section active" id="sec1">
+  <div class="hero-badge">~ A Special Surprise ~</div>
+  <div class="hero-title">Happy Birthday</div>
+  <div class="hero-name">Anaya ✨</div>
+  <div class="hero-sub">🌹 May every dream of yours come true 🌹</div>
+  <div class="balloon-scene" id="balloonScene">
+    <svg viewBox="0 0 320 320">
+      <defs><radialGradient id="b1" cx="35%" cy="35%"><stop offset="0%" stop-color="#ff6b9d"/><stop offset="100%" stop-color="#ff0055"/></radialGradient><radialGradient id="b2" cx="35%" cy="35%"><stop offset="0%" stop-color="#ffe066"/><stop offset="100%" stop-color="#ffd700"/></radialGradient><radialGradient id="b3" cx="35%" cy="35%"><stop offset="0%" stop-color="#ff9bca"/><stop offset="100%" stop-color="#ff4d8d"/></radialGradient><radialGradient id="b4" cx="35%" cy="35%"><stop offset="0%" stop-color="#80ffc8"/><stop offset="100%" stop-color="#00e676"/></radialGradient><radialGradient id="b5" cx="35%" cy="35%"><stop offset="0%" stop-color="#e0b0ff"/><stop offset="100%" stop-color="#ce93d8"/></radialGradient><filter id="gf"><feGaussianBlur stdDeviation="3"/></filter></defs>
+      <path d="M160 300 Q130 250 95 195" stroke="#ffd700" stroke-width="1.5" fill="none" opacity=".7"/>
+      <path d="M160 300 Q155 240 155 185" stroke="#ffd700" stroke-width="1.5" fill="none" opacity=".7"/>
+      <path d="M160 300 Q185 255 215 195" stroke="#ffd700" stroke-width="1.5" fill="none" opacity=".7"/>
+      <ellipse cx="155" cy="130" rx="52" ry="62" fill="url(#b2)" filter="url(#gf)"/><ellipse cx="155" cy="130" rx="52" ry="62" fill="url(#b2)"/><ellipse cx="141" cy="116" rx="15" ry="18" fill="rgba(255,255,255,.35)"/><polygon points="155,192 150,206 160,206" fill="#c8a000"/><text x="155" y="136" font-size="22" text-anchor="middle" fill="rgba(255,255,255,.9)">♥</text>
+      <ellipse cx="90" cy="150" rx="44" ry="54" fill="url(#b1)" filter="url(#gf)"/><ellipse cx="90" cy="150" rx="44" ry="54" fill="url(#b1)"/><ellipse cx="78" cy="136" rx="13" ry="16" fill="rgba(255,255,255,.3)"/><polygon points="90,204 86,216 94,216" fill="#b70040"/><text x="90" y="156" font-size="18" text-anchor="middle" fill="rgba(255,255,255,.9)">★</text>
+      <ellipse cx="225" cy="150" rx="44" ry="54" fill="url(#b3)" filter="url(#gf)"/><ellipse cx="225" cy="150" rx="44" ry="54" fill="url(#b3)"/><ellipse cx="213" cy="136" rx="13" ry="16" fill="rgba(255,255,255,.3)"/><polygon points="225,204 221,216 229,216" fill="#c0005c"/><text x="225" y="156" font-size="18" text-anchor="middle" fill="rgba(255,255,255,.9)">✿</text>
+      <ellipse cx="45" cy="132" rx="34" ry="42" fill="url(#b4)" filter="url(#gf)"/><ellipse cx="45" cy="132" rx="34" ry="42" fill="url(#b4)"/><ellipse cx="36" cy="122" rx="10" ry="12" fill="rgba(255,255,255,.3)"/><polygon points="45,174 42,184 48,184" fill="#00796b"/>
+      <ellipse cx="275" cy="132" rx="34" ry="42" fill="url(#b5)" filter="url(#gf)"/><ellipse cx="275" cy="132" rx="34" ry="42" fill="url(#b5)"/><ellipse cx="265" cy="122" rx="10" ry="12" fill="rgba(255,255,255,.3)"/><polygon points="275,174 272,184 278,184" fill="#6a0080"/>
+      <circle cx="160" cy="303" r="10" fill="#ff0055" stroke="#ffd700" stroke-width="2"/>
+    </svg>
+    <span class="burst-item" style="top:50%;left:50%;--tx:-130px;--ty:-110px;--d:1.1s;--rot:45deg;">🎉</span><span class="burst-item" style="top:50%;left:50%;--tx:100px;--ty:-140px;--d:.9s;--rot:-60deg;">🎊</span><span class="burst-item" style="top:50%;left:50%;--tx:-90px;--ty:100px;--d:1.2s;--rot:30deg;">🌹</span><span class="burst-item" style="top:50%;left:50%;--tx:140px;--ty:80px;--d:1.0s;--rot:-90deg;">❤️</span><span class="burst-item" style="top:50%;left:50%;--tx:-170px;--ty:50px;--d:.85s;--rot:120deg;">🎂</span><span class="burst-item" style="top:50%;left:50%;--tx:60px;--ty:-170px;--d:1.3s;--rot:-30deg;">⭐</span><span class="burst-item" style="top:50%;left:50%;--tx:170px;--ty:-70px;--d:1.0s;--rot:75deg;">🌸</span><span class="burst-item" style="top:50%;left:50%;--tx:-50px;--ty:160px;--d:.95s;--rot:-45deg;">🎁</span><span class="burst-item" style="top:50%;left:50%;--tx:110px;--ty:150px;--d:1.15s;--rot:20deg;">✨</span><span class="burst-item" style="top:50%;left:50%;--tx:-140px;--ty:-60px;--d:1.05s;--rot:-80deg;">💫</span>
+  </div>
+  <div class="gift-wrap" id="giftBox"><div class="gift-box"><div class="gift-lid"></div><div class="gift-rv"></div><div class="gift-rh"></div><div class="gift-bow">🎀</div><div class="gift-label">Tap Me 💌</div></div></div>
+  <div class="open-hint">👆 Gift box tap karo!</div>
+</div>
+
+<!-- SEC 2 – DUA -->
+<div class="section" id="sec2"><div class="dua-outer"><div class="section-badge badge-dua">🤲 Anaya ke liye Dua 🤲</div><div class="dua-card"><div class="dua-lines"><div class="dua-line"><span class="dua-icon">🌸</span><div class="dua-text"><strong>Allah Pak</strong> tumhein duniya ki tamam khushiyan ata farmaye — har khushi mein barkat ho</div></div><div class="dua-line"><span class="dua-icon">⭐</span><div class="dua-text">Tumhari zindagi mein <strong>roshan sitare</strong> hamesha chamkate rahein, andhera kabhi na aaye</div></div><div class="dua-line"><span class="dua-icon">🌹</span><div class="dua-text">Har qadam par <strong>kamyabi</strong> tumhara istaqbal kare — mushkilein raasta de dein</div></div><div class="dua-line"><span class="dua-icon">💖</span><div class="dua-text">Tumhare dil ki har <strong>tamanna</strong> poori ho jaye — jo maango woh mile</div></div><div class="dua-line"><span class="dua-icon">❤️</span><div class="dua-text">Allah tumhein <strong>sehat, khushi aur salamati</strong> de — hamesha mehfooz rakhe</div></div><div class="dua-line"><span class="dua-icon">🌙</span><div class="dua-text">Tumhara har din <strong>Eid</strong> se bhi khoobsurat ho — muskaan kabhi na jaye</div></div><div class="dua-line"><span class="dua-icon">🤲</span><div class="dua-text">Jahan bhi jao <strong>Rehmat aur Barkat</strong> tumhare saaye mein rahe — Ameen</div></div></div><div class="dua-ameen">~ Ameen Ya Rabbul Aalameen 🤲 ~</div></div><button class="btn-nav btn-green" onclick="goTo('sec3')">Poetry Padho 📜</button></div></div>
+
+<!-- SEC 3 – POETRY -->
+<div class="section" id="sec3"><div class="poetry-outer"><div class="section-badge badge-poetry">🌹 Anaya ke liye — Birthday Poetry 🌹</div><div class="poetry-grid"><div class="poem-card pc1"><span class="poem-icon-big">🌹</span><span class="poem-label" style="color:#ff4d8d;">— Pehli Nazar —</span><div class="poem-hr"></div>Phoolon ki mehek, sitaron ki roshni,<br><em style="color:#ffd700;">Anaya</em> tum ho duniya ki sabse haseen zindagi.<br>Aaj ka din hai tera, teri khushiyon ka mela,<br>Har sapna tera sacha ho, ye dua hai mera.<br><br><em style="color:#ff4d8d; font-size:1rem;">🎂 Happy Birthday Anaya Jaan 🎂</em></div><div class="poem-card pc2"><span class="poem-icon-big">💜</span><span class="poem-label" style="color:#ce93d8;">— Chand aur Sitare —</span><div class="poem-hr"></div>Asmaan ke sitare bhi tujhe mubarakbad dein,<br>Chand aur suraj bhi teri khidmat mein jhuk jayein.<br>Tu itni pyari, itni achi, itni dilruba,<br><em style="color:#ffd700;">Khuda kare teri zindagi kabhi na ho udaas.</em><br><br><em style="color:#ce93d8; font-size:1rem;">✨ Tujhe mubarak ho ye khoobsoorat din ✨</em></div><div class="poem-card pc3"><span class="poem-icon-big">💙</span><span class="poem-label" style="color:#80deea;">— Dil ki Dua —</span><div class="poem-hr"></div>Janam din pe yahi dil se dua nikalti hai,<br>Har subah teri muskaan se roshni nikalti hai.<br><em style="color:#ffd700;">Zindagi teri phoolon jaisi mehkti rahe,</em><br>Anaya! Teri khushi mein hi meri khushi hai.<br><br><em style="color:#80deea; font-size:1rem;">🌊 Dil se mubarak ho Anaya 🌊</em></div><div class="poem-card pc4"><span class="poem-icon-big">🌟</span><span class="poem-label" style="color:#ffd700;">— Roshan Kal —</span><div class="poem-hr"></div>Har lamhe mein teri khushi basayi jaye,<br>Duniya teri qadam chume, yahi dua hai.<br><em style="color:#ff4d8d;">Roshan ho tera kal, aur roshan ho raat,</em><br>Anaya, tu hai sab ki aankhon ki baat.<br><br><em style="color:#ffd700; font-size:1rem;">🌟 Teri zindagi mein hamesha noor rahe 🌟</em></div></div><button class="btn-nav btn-red" onclick="goTo('sec4')">GIFs Dekho 🎞️</button></div></div>
+
+<!-- SEC 4 – GIFs UPDATED -->
+<div class="section" id="sec4">
+  <div class="gif-wrap">
+    <div class="gif-title">🎞️ Anaya ke liye Special GIFs 🎞️</div>
+    <div id="gifSlide">
+      <div class="gif-slide active"><div class="gif-border"><img class="gif-img" src="https://files.catbox.moe/fzzwpx.gif" alt="GIF 1"></div><div class="gif-cap">✨ Happy Birthday Anaya ✨</div></div>
+      <div class="gif-slide"><div class="gif-border"><img class="gif-img" src="https://files.catbox.moe/z5wla1.gif" alt="GIF 2"></div><div class="gif-cap">🌹 Tujhe mubarak ho 🌹</div></div>
+      <div class="gif-slide"><div class="gif-border"><img class="gif-img" src="https://files.catbox.moe/60qa7k.gif" alt="GIF 3"></div><div class="gif-cap">💖 Dil se dua hai 💖</div></div>
+      <div class="gif-slide"><div class="gif-border"><img class="gif-img" src="https://files.catbox.moe/fi1xif.gif" alt="GIF 4"></div><div class="gif-cap">🎂 Khush raho hamesha 🎂</div></div>
+    </div>
+    <div class="gif-dots" id="gifDots"><div class="gif-dot active" onclick="goGif(0)"></div><div class="gif-dot" onclick="goGif(1)"></div><div class="gif-dot" onclick="goGif(2)"></div><div class="gif-dot" onclick="goGif(3)"></div></div>
+    <div class="music-row"><span class="note-bounce">🎵</span><span class="music-lbl">Anaya ke liye special song...</span><span class="note-bounce">🎶</span><span class="note-bounce">🎵</span></div>
+    <button class="btn-nav btn-gold" onclick="goTo('sec5')" style="margin-top:20px;">Aage Chalo ➡️</button>
+  </div>
+</div>
+
+<!-- SEC 5 – TAP -->
+<div class="section" id="sec5"><div class="tap-ring"></div><div class="tap-ring tap-ring2"></div><div class="tap-text" onclick="openSurprise()">Anaya tap...</div><div class="tap-sub">✨ Tap karo surprise ke liye ✨</div></div>
+
+<!-- SEC 6 – FINAL MESSAGE -->
+<div class="section" id="sec6"><div class="final-box"><div class="final-emojis">🎁🎊🎂🎊🎁</div><div class="final-title">Happy Birthday<br>Anaya! 🎉</div><div class="final-msg">Yeh zindagi teri, yeh khushiyan teri,<br>Har lamha tera, har pal teri.<br>🌹 <span style="color:#ff4d8d">Anaya</span>, tum hamesha khush raho 🌹<br>Pyaar, dua aur khushiyan hamesha tumhare saath hain! 💖</div><div class="final-hearts">❤️🌹🎂🌹❤️</div><div class="wished-by">~ Wished by your Best Friend<span class="wished-name">Talha 💕</span></div><button class="btn-nav btn-red" onclick="goTo('sec7')" style="margin-top:24px;">Birthday Cake Dekho 🎂</button></div></div>
+
+<!-- SEC 7 – CAKE -->
+<div class="section" id="sec7"><div class="cake-section-badge">🎂 Anaya ki Birthday Cake 🎂</div><div class="cake-container" id="cakeContainer" onclick="cakeTap()"><div class="cake-glow"></div><svg class="cake-svg" viewBox="0 0 320 320"><defs><radialGradient id="cg1" cx="50%" cy="30%"><stop offset="0%" stop-color="#ff6b9d"/><stop offset="100%" stop-color="#ff0055"/></radialGradient><radialGradient id="cg2" cx="50%" cy="30%"><stop offset="0%" stop-color="#fff0c0"/><stop offset="100%" stop-color="#ffd700"/></radialGradient><radialGradient id="cg3" cx="50%" cy="30%"><stop offset="0%" stop-color="#ffb3cc"/><stop offset="100%" stop-color="#ff4d8d"/></radialGradient><linearGradient id="plate" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8e0f0"/><stop offset="100%" stop-color="#c8b8d8"/></linearGradient></defs><ellipse cx="160" cy="295" rx="105" ry="14" fill="rgba(0,0,0,.4)"/><ellipse cx="160" cy="285" rx="100" ry="12" fill="url(#plate)" stroke="#ffd700" stroke-width="2"/><ellipse cx="160" cy="283" rx="85" ry="9" fill="rgba(255,255,255,.3)"/><rect x="55" y="210" width="210" height="72" rx="16" fill="url(#cg1)"/><rect x="55" y="210" width="210" height="16" rx="8" fill="rgba(255,255,255,.15)"/><path d="M55 220 Q75 238 95 222 Q115 238 135 222 Q155 238 175 222 Q195 238 215 222 Q235 238 255 222 Q265 228 265 220" stroke="none" fill="rgba(255,255,255,.3)"/><circle cx="80" cy="246" r="5" fill="#ffd700"/><circle cx="110" cy="255" r="4" fill="#fff"/><circle cx="140" cy="246" r="5" fill="#ffd700"/><circle cx="170" cy="255" r="4" fill="#fff"/><circle cx="200" cy="246" r="5" fill="#ffd700"/><circle cx="230" cy="255" r="4" fill="#fff"/><circle cx="250" cy="246" r="4" fill="#ffd700"/><text x="160" y="252" font-family="'Dancing Script', cursive" font-size="15" text-anchor="middle" fill="#fff" opacity=".9">Happy Birthday</text><rect x="80" y="148" width="160" height="66" rx="14" fill="url(#cg2)"/><rect x="80" y="148" width="160" height="14" rx="7" fill="rgba(255,255,255,.2)"/><path d="M80 158 Q100 174 120 158 Q140 174 160 158 Q180 174 200 158 Q220 174 240 158" stroke="none" fill="rgba(255,255,255,.25)"/><circle cx="100" cy="181" r="4" fill="#ff0055"/><circle cx="130" cy="188" r="3.5" fill="#ff4d8d"/><circle cx="160" cy="181" r="4" fill="#ff0055"/><circle cx="190" cy="188" r="3.5" fill="#ff4d8d"/><circle cx="220" cy="181" r="4" fill="#ff0055"/><text x="160" y="188" font-family="'Cinzel Decorative', cursive" font-size="13" text-anchor="middle" fill="#ff0055" font-weight="bold">Anaya</text><rect x="106" y="95" width="108" height="56" rx="12" fill="url(#cg3)"/><rect x="106" y="95" width="108" height="12" rx="6" fill="rgba(255,255,255,.2)"/><text x="130" y="128" font-size="12" text-anchor="middle" fill="#ffd700">★</text><text x="160" y="128" font-size="12" text-anchor="middle" fill="#ffd700">✿</text><text x="190" y="128" font-size="12" text-anchor="middle" fill="#ffd700">★</text><circle cx="160" cy="94" r="10" fill="#ff0055" stroke="#ffd700" stroke-width="2"/><text x="160" y="98" font-size="10" text-anchor="middle" fill="#fff">✿</text><rect x="112" y="66" width="10" height="30" rx="3" fill="#f0e0ff" stroke="#ce93d8" stroke-width=".5"/><ellipse cx="117" cy="66" rx="5" ry="3" fill="#ffd700" class="candle-flame"><animateTransform attributeName="transform" type="scale" values="1,1;1.3,1.1;0.9,1.2;1,1" dur="0.5s" repeatCount="indefinite" additive="sum"/></ellipse><path d="M113 63 Q117 55 121 63" fill="#ff6600" opacity=".8" class="candle-flame"/><path d="M115 62 Q117 57 119 62" fill="#ffd700" opacity=".9" class="candle-flame"/><rect x="155" y="60" width="10" height="36" rx="3" fill="#ffe0f0" stroke="#ff4d8d" stroke-width=".5"/><ellipse cx="160" cy="60" rx="5" ry="3" fill="#ffd700" class="candle-flame2"/><path d="M156 57 Q160 49 164 57" fill="#ff6600" opacity=".8" class="candle-flame2"/><path d="M158 56 Q160 51 162 56" fill="#fff066" opacity=".95" class="candle-flame2"/><rect x="198" y="66" width="10" height="30" rx="3" fill="#e0f8e0" stroke="#00e676" stroke-width=".5"/><ellipse cx="203" cy="66" rx="5" ry="3" fill="#ffd700" class="candle-flame3"/><path d="M199 63 Q203 55 207 63" fill="#ff8800" opacity=".8" class="candle-flame3"/><path d="M201 62 Q203 57 205 62" fill="#fffb66" opacity=".95" class="candle-flame3"/><ellipse cx="117" cy="68" rx="12" ry="6" fill="#ffd700" opacity=".15"/><ellipse cx="160" cy="62" rx="14" ry="7" fill="#ffd700" opacity=".18"/><ellipse cx="203" cy="68" rx="12" ry="6" fill="#ffd700" opacity=".15"/></svg></div><div class="cake-text">🎂 Anaya ki Birthday Mubarak Ho! 🎂</div><div class="cake-tap-hint">✨ Cake tap karo confetti ke liye ✨</div><div style="margin-top:24px;font-family:'Great Vibes',cursive;font-size:1.6rem;color:#ffd700;animation:pulse 2s ease-in-out infinite;">~ With love, Talha 💕 ~</div></div>
+
+<script>
+// BG STARS
+const canvas=document.getElementById('bgCanvas'),ctx=canvas.getContext('2d');let stars=[];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+function initStars(){stars=[];for(let i=0;i<220;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2.4+.3,speed:Math.random()*.4+.1,alpha:Math.random(),da:Math.random()*.025+.005,color:['#fff','#ff4d8d','#ffd700','#ff0055','#ce93d8','#ff69b4'][Math.floor(Math.random()*6)]});}
+initStars();
+function animStars(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.alpha+=s.da;if(s.alpha>1||s.alpha<0)s.da*=-1;ctx.save();ctx.globalAlpha=Math.abs(s.alpha);ctx.fillStyle=s.color;ctx.shadowBlur=8;ctx.shadowColor=s.color;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();ctx.restore();s.y-=s.speed;if(s.y<-5){s.y=canvas.height+5;s.x=Math.random()*canvas.width;}});requestAnimationFrame(animStars);}
+animStars();
+
+// FLOATERS
+const emojis=['❤️','🌹','🎉','⭐','🎊','💖','✨','💫','🌸','🎂','🎁','💕','🌟','💝','🌺','💗'];
+const floatersEl=document.getElementById('floaters');
+function spawnFloater(){const f=document.createElement('div');f.className='floater';f.textContent=emojis[Math.floor(Math.random()*emojis.length)];const dur=(Math.random()*7+5).toFixed(1),delay=(Math.random()*4).toFixed(1);f.style.left=Math.random()*100+'%';f.style.fontSize=(Math.random()*1.6+.7)+'rem';f.style.animationDuration=dur+'s';f.style.animationDelay=delay+'s';floatersEl.appendChild(f);setTimeout(()=>f.remove(),(parseFloat(dur)+parseFloat(delay))*1000+300);}
+setInterval(spawnFloater,300);
+
+// SPLASH ROSES
+const splashRoses=document.getElementById('splashRoses');
+const splashEmojis=['🌹','💕','✨','🌸','⭐','💖','🎊'];
+for(let i=0;i<25;i++){const r=document.createElement('div');r.className='splash-rose';r.textContent=splashEmojis[Math.floor(Math.random()*splashEmojis.length)];const dur=(Math.random()*6+5).toFixed(1),delay=(Math.random()*8).toFixed(1);r.style.left=Math.random()*100+'%';r.style.fontSize=(Math.random()*1.4+.8)+'rem';r.style.animationDuration=dur+'s';r.style.animationDelay=delay+'s';splashRoses.appendChild(r);}
+
+// NAVIGATION
+function goTo(id){const wipe=document.getElementById('wipe');wipe.style.opacity='1';wipe.style.pointerEvents='all';setTimeout(()=>{document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');wipe.style.opacity='0';setTimeout(()=>wipe.style.pointerEvents='none',500);window.scrollTo(0,0);},500);}
+
+// BALLOONS TAP
+document.getElementById('balloonScene').addEventListener('click',function(){document.querySelectorAll('.burst-item').forEach(b=>{b.classList.remove('go');void b.offsetWidth;b.classList.add('go');});triggerConfetti(1.5);});
+
+// GIFT TAP
+document.getElementById('giftBox').addEventListener('click',function(){triggerConfetti(3);setTimeout(()=>goTo('sec2'),700);});
+
+// GIF SLIDESHOW (FULL SIZE + AUTO)
+let gifIdx=0;
+const gifSlides=document.querySelectorAll('.gif-slide');
+const gifDotEls=document.querySelectorAll('.gif-dot');
+function goGif(n){gifSlides[gifIdx].classList.remove('active');gifDotEls[gifIdx].classList.remove('active');gifIdx=n;gifSlides[gifIdx].classList.add('active');gifDotEls[gifIdx].classList.add('active');}
+setInterval(()=>goGif((gifIdx+1)%gifSlides.length),4000);
+
+// AUTO PLAY SONG ON SPLASH TAP
+const audioEl=document.getElementById('audioEl');
+audioEl.volume=0.6;
+audioEl.load();
+const splashScreen=document.getElementById('splashScreen');
+function enterSite(){
+  audioEl.play().then(()=>{}).catch(e=>console.log("autoplay blocked, but user gesture already"));
+  splashScreen.style.transition='opacity .8s ease';
+  splashScreen.style.opacity='0';
+  setTimeout(()=>{splashScreen.style.display='none';},800);
+}
+splashScreen.addEventListener('click',enterSite);
+splashScreen.addEventListener('touchstart',enterSite,{passive:true});
+
+// SURPRISE
+function openSurprise(){triggerConfetti(5);document.getElementById('hbScroll').classList.add('show');setTimeout(()=>goTo('sec6'),700);}
+
+// CAKE TAP
+function cakeTap(){triggerConfetti(4);}
+
+// CONFETTI
+const confCanvas=document.getElementById('confettiCanvas'),cc=confCanvas.getContext('2d');let confParts=[],confAnim=null;
+function triggerConfetti(sec=3){confCanvas.width=window.innerWidth;confCanvas.height=window.innerHeight;confCanvas.style.display='block';confParts=[];const colors=['#ff0055','#ffd700','#ff4d8d','#00e676','#40c4ff','#fff','#ce93d8','#ff69b4','#ffa0c0'];for(let i=0;i<220;i++)confParts.push({x:Math.random()*confCanvas.width,y:-30,w:Math.random()*12+5,h:Math.random()*7+4,color:colors[Math.floor(Math.random()*colors.length)],vx:(Math.random()-.5)*7,vy:Math.random()*5+3,rot:Math.random()*360,vrot:(Math.random()-.5)*12,shape:Math.random()>.5?'rect':'circle'});if(confAnim)cancelAnimationFrame(confAnim);let end=Date.now()+sec*1000;function loopConf(){cc.clearRect(0,0,confCanvas.width,confCanvas.height);confParts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.vrot;p.vy+=.08;cc.save();cc.translate(p.x+p.w/2,p.y+p.h/2);cc.rotate(p.rot*Math.PI/180);cc.fillStyle=p.color;if(p.shape==='circle'){cc.beginPath();cc.arc(0,0,p.w/2,0,Math.PI*2);cc.fill();}else{cc.fillRect(-p.w/2,-p.h/2,p.w,p.h);}cc.restore();});if(Date.now()<end){confAnim=requestAnimationFrame(loopConf);}else{confCanvas.style.display='none';cc.clearRect(0,0,confCanvas.width,confCanvas.height);}}loopConf();}
+</script>
+</body>
+</html>
